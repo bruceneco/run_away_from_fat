@@ -9,12 +9,13 @@ from utils.position import in_bounds
 
 
 class LoadGame:
-    def __init__(self, screen):
+    def __init__(self, screen,sound):
         self.screen = screen
         self.width, self.height = pygame.display.get_surface().get_size()
         self.bg = pygame.transform.scale(pygame.image.load(IMAGES_PATH + "bg.png"), (self.width, self.height))
         self.on = False
         self.saves = Data.get_saves()
+        self.sound_status = sound
         self.buttons = {
             "image": pygame.transform.scale(pygame.image.load("assets/img/fundo-cinza.png").convert_alpha(),
                                             (420, 50)),
@@ -82,7 +83,7 @@ class LoadGame:
         for index, button in enumerate(self.buttons["bounds"]):
             if in_bounds(pos, button):
                 config.USERNAME = self.saves[index][0]
-                Controller(self.screen).show()
+                Controller(self.screen,self.sound_status).show()
 
     def show(self):
         self.on = True

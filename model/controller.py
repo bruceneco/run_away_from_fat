@@ -9,11 +9,11 @@ from utils.data_manipulation import Data
 
 
 class Controller:
-    def __init__(self, screen):
+    def __init__(self, screen,sound):
         self.screen = screen
         self.width, self.height = pygame.display.get_surface().get_size()
         self.on = True
-        self.sound_status = True
+        self.sound_status = sound
 
     def change_sound_status(self):
         if self.sound_status == True:

@@ -12,25 +12,28 @@ class Menu:
     def __init__(self, screen):
         self.width, self.height = pygame.display.get_surface().get_size()
         self.screen = screen
+        self.sound_status = True
         self.bg = pygame.transform.scale(pygame.image.load(IMAGES_PATH + "bg.png"), (self.width, self.height))
         self.title = pygame.transform.scale(pygame.image.load(MENU_IMAGES_PATH + "titulo.png"),
                                             (int(self.width / 12 * 7), int(self.height / 5)))
         self.new_game = NewGame(screen, self.bg)
-        self.controller = Controller(screen)
+        self.controller = Controller(screen,self.sound_status)
 
         self.has_save = Data.has_save()
         self.continue_img = self.scale_it(pygame.image.load(MENU_IMAGES_PATH + "continuar-jogo.png").convert_alpha())
         self.new_img = self.scale_it(pygame.image.load(MENU_IMAGES_PATH + "novo-jogo.png").convert_alpha())
         self.leave_img = self.scale_it(pygame.image.load(MENU_IMAGES_PATH + "sair.png").convert_alpha())
         self.sound_img = pygame.transform.scale( pygame.image.load(MENU_IMAGES_PATH + "sound_on.png").convert_alpha(), (215, 150))
-
+    
     def change_sound_status(self):
-        if self.controller.sound_status == True:
+        if self.sound_status == True:
             self.sound_img = pygame.transform.scale(pygame.image.load(MENU_IMAGES_PATH + "sound_off.png").convert_alpha(), (215, 150))
             self.controller.change_sound_status()
+            self.sound_status=False
         elif self.controller.sound_status == False:
             self.sound_img = pygame.transform.scale(pygame.image.load(MENU_IMAGES_PATH + "sound_on.png").convert_alpha(), (215, 150))
             self.controller.change_sound_status()
+            self.sound_status=True
 
     def sound(self, x, y):
         """Shows sound button"""
@@ -68,7 +71,7 @@ class Menu:
     def drop_continue(self):
         """Changes 'continuar' image to its unpressed version."""
         if self.has_save:
-            LoadGame(self.screen).show()
+            LoadGame(self.screen,self.sound_status).show()
 
     def press_new(self):
         """Changes 'Novo jogo' image to its pressed version."""
